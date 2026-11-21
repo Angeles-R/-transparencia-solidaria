@@ -1,8 +1,9 @@
-
 const express = require("express");
 const router = express.Router();
 
 const pool = require("../config/database");
+
+const permitirRoles = require("../middlewares/roles.middleware");
 
 // CONSULTAR TODOS LOS DONANTES
 router.get("/", async (req, res) => {
@@ -92,7 +93,7 @@ router.post("/", async (req, res) => {
 
 
  // MODIFICAR UN DONANTE
-router.put("/:id", async (req, res) => {
+router.put("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
     const { nombre, telefono, email, tipo } = req.body;
@@ -154,7 +155,7 @@ router.put("/:id", async (req, res) => {
 
 
  // ELIMINAR (DESACTIVAR) UN DONANTE
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
 

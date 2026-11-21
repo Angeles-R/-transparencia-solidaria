@@ -11,6 +11,8 @@ const beneficiariosRoutes = require("./routes/beneficiarios.routes");
 const entregasRoutes = require("./routes/entregas.routes");
 const inventarioRoutes = require("./routes/inventario.routes");
 const authRoutes = require("./routes/auth.routes");
+const usuariosRoutes = require("./routes/usuarios.routes");
+
 const app = express();
 
 app.use(express.json());
@@ -21,6 +23,7 @@ app.use("/api/productos", authMiddleware, productosRoutes);
 app.use("/api/beneficiarios", authMiddleware, beneficiariosRoutes);
 app.use("/api/entregas", authMiddleware, entregasRoutes);
 app.use("/api/inventario", authMiddleware, inventarioRoutes);
+app.use("/api/usuarios", authMiddleware, usuariosRoutes);
 
 app.use("/api/auth", authRoutes);
 

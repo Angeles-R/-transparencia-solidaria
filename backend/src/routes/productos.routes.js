@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/database");
+const permitirRoles = require("../middlewares/roles.middleware");
 
 // CONSULTAR TODOS LOS PRODUCTOS
 router.get("/", async (req, res) => {
@@ -57,7 +58,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // REGISTRAR UN PRODUCTO
-router.post("/", async (req, res) => {
+router.post("/", permitirRoles("admin"), async (req, res) => {
   try {
     const {
       nombre,
@@ -107,7 +108,7 @@ router.post("/", async (req, res) => {
 
 
 // MODIFICAR UN PRODUCTO
-router.put("/:id", async (req, res) => {
+router.put("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
     const {
@@ -176,7 +177,7 @@ router.put("/:id", async (req, res) => {
 
 
 // DESACTIVAR UN PRODUCTO
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
 

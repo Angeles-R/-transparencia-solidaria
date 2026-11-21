@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const pool = require("../config/database");
+const permitirRoles = require("../middlewares/roles.middleware");
 
 // CONSULTAR TODAS LAS DONACIONES
 router.get("/", async (req, res) => {
@@ -166,7 +167,7 @@ router.post("/", async (req, res) => {
 });
 
 // MODIFICAR UNA DONACION
-router.put("/:id", async (req, res) => {
+router.put("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
     const { tipo, descripcion, monto } = req.body;
@@ -238,7 +239,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // CANCELAR UNA DONACION
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", permitirRoles("admin"), async (req, res) => {
   try {
     const { id } = req.params;
 

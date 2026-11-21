@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/database");
+const permitirRoles = require("../middlewares/roles.middleware");
 
 // CONSULTAR TODAS LAS ENTREGAS
 router.get("/", async (req, res) => {
@@ -90,7 +91,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // REGISTRAR UNA ENTREGA Y DESCONTAR PRODUCTOS DEL INVENTARIO
-router.post("/", async (req, res) => {
+router.post("/", permitirRoles("admin", "operador"), async (req, res) => {
   const {
     beneficiario_id,
     descripcion,
@@ -229,7 +230,7 @@ router.post("/", async (req, res) => {
 });
 
 // MODIFICAR LOS DATOS GENERALES DE UNA ENTREGA
-router.put("/:id", async (req, res) => {
+router.put("/:id", permitirRoles("admin"), async (req, res) => {
   const { id } = req.params;
   const { beneficiario_id, descripcion } = req.body;
 
@@ -275,7 +276,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // CANCELAR ENTREGA Y DEVOLVER PRODUCTOS AL INVENTARIO
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", permitirRoles("admin"), async (req, res) => {
   const { id } = req.params;
 
   if (!/^\d+$/.test(id)) {

@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/database");
+const permitirRoles = require("../middlewares/roles.middleware");
 
 // CONSULTAR EXISTENCIAS DE TODOS LOS PRODUCTOS
 router.get("/", async (req, res) => {
